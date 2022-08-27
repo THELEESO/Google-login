@@ -11,6 +11,22 @@ router.get("/signup", (req, res) => {
   res.render("signup", { user: req.user });
 });
 
+router.get("/logout", (req, res) => {
+  req.logOut();
+  res.redirect("/");
+});
+
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/auth/login",
+    failureFlash: "Wrong email or password",
+  }),
+  (req, res) => {
+    res.redirect("/profile");
+  }
+);
+
 router.post("/signup", async (req, res) => {
   console.log(req.body);
   let { name, email, password } = req.body;
@@ -41,11 +57,6 @@ router.get(
     prompt: "select_account",
   })
 );
-
-router.get("/logout", (req, res) => {
-  req.logOut();
-  res.redirect("/");
-});
 
 router.get(
   "/google",
