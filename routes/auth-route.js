@@ -23,7 +23,13 @@ router.post(
     failureFlash: "Wrong email or password",
   }),
   (req, res) => {
-    res.redirect("/profile");
+    if (req.session.returnTo) {
+      let newPath = req.session.returnTo;
+      req.session.returnTo = "";
+      res.redirect(newPath);
+    } else {
+      res.redirect("/profile");
+    }
   }
 );
 
@@ -65,7 +71,13 @@ router.get(
 // 使用 passport 與 google 溝通（使用者登入），並且獲得使用者的 profile
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  res.redirect("/profile");
+  if (req.session.returnTo) {
+    let newPath = req.session.returnTo;
+    req.session.returnTo = "";
+    res.redirect(newPath);
+  } else {
+    res.redirect("/profile");
+  }
 });
 
 module.exports = router;

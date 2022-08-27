@@ -2,7 +2,11 @@ const router = require("express").Router();
 const Post = require("../models/post-model");
 
 const authCheck = (req, res, next) => {
+  console.log(req.originalUrl);
+  // 儲存在session
+
   if (!req.isAuthenticated()) {
+    req.session.returnTo = req.originalUrl;
     res.redirect("/auth/login");
   } else {
     next();
