@@ -33,7 +33,7 @@ passport.use(
           done(null, foundUser);
         } else {
           new User({
-            name: profile.displayNamne,
+            name: profile.displayName,
             googleID: profile.id,
             thumbnail: profile.photos[0].value,
           })
